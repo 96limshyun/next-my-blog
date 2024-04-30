@@ -1,6 +1,6 @@
 import { allPosts } from "@/.contentlayer/generated";
 import { compareDesc } from "date-fns";
-import PostCard from "@/src/components/PostCard";
+import PostCard from "@/src/components/PostCard/PostCard";
 
 export default function PostsPage() {
     const posts = allPosts.sort((a, b) =>
@@ -8,7 +8,7 @@ export default function PostsPage() {
     );
 
     return (
-        <main className="mx-auto max-w-5xl ">
+        <main className="max-w-screen-md flex flex-col px-10 m-auto">
             {posts.map((post) => (
                 <PostCard key={post._id} {...post} />
             ))}
