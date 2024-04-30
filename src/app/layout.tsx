@@ -21,9 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={notoSansKr.className}>
-      <body >
+      <body className="flex flex-col min-h-screen">
         <Header />
-        <main >{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer/>
       </body>
     </html>

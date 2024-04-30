@@ -13,7 +13,7 @@ const pages = [
 
 const Header = () => {
     return (
-        <header className="h-20 flex flex-row justify-around text-center items-center border-b-4">
+        <header className="sticky top-0 z-10 h-20 flex flex-row justify-around items-center border-b-4 bg-white">
             <div>
                 <Link href="/" className="font-bold text-2xl">SeungHyun Lim</Link>
             </div>
