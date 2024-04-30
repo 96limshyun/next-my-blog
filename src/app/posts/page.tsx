@@ -8,7 +8,7 @@ export default function PostsPage() {
     );
 
     return (
-        <main className="w-2/4 mx-auto">
+        <main className="max-w-screen-md flex flex-col px-10 m-auto">
             {posts.map((post) => (
                 <PostCard key={post._id} {...post} />
             ))}

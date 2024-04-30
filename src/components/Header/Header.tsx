@@ -1,4 +1,6 @@
+import { MoonFilled, SunOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import react, { useState } from "react";
 
 const pages = [
     {
@@ -20,7 +22,7 @@ const Header = () => {
             <nav>
                 {pages.map((page) => (
                     <Link href={page.href} key={page.href} className="p-4">
-                        <span className="font-bold text-xl text-gray-600">{page.name}</span>
+                        <span className="inline-block font-bold text-xl text-gray-500 hover:text-black">{page.name}</span>
                     </Link>
                 ))}
             </nav>
