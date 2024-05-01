@@ -12,6 +12,9 @@ const notoSansKr = Noto_Sans_KR({
 export const metadata: Metadata = {
   title: "LimSH Blog",
   description: "SeungHyun Lim의 블로그입니다.",
+  icons: {
+    icon: "/titleIcon.png",
+  },
 };
 
 export default function RootLayout({
