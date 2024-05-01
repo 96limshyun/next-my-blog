@@ -1,6 +1,7 @@
 import { MoonFilled, SunOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import react, { useState } from "react";
+import ThemeSwitch from "../ThemeSwitch/ThemeSwith";
 
 const pages = [
     {
@@ -15,16 +16,17 @@ const pages = [
 
 const Header = () => {
     return (
-        <header className="sticky top-0 z-10 h-20 flex flex-row justify-around items-center border-b-4 bg-white">
+        <header className="sticky top-0 z-10 h-20 flex flex-row justify-around items-center border-b-4 dark:bg-customBlack bg-white">
             <div>
                 <Link href="/" className="font-bold text-2xl">SeungHyun Lim</Link>
             </div>
-            <nav>
+            <nav className="flex">
                 {pages.map((page) => (
-                    <Link href={page.href} key={page.href} className="p-4">
-                        <span className="inline-block font-bold text-xl text-gray-500 hover:text-black">{page.name}</span>
+                    <Link href={page.href} key={page.href} className="p-3">
+                        <span className="inline-block font-bold text-xl">{page.name}</span>
                     </Link>
                 ))}
+                <span className="flex items-center text-2xl p-4"><ThemeSwitch/></span>
             </nav>
         </header>
     );
