@@ -9,8 +9,9 @@ export default function SelfIntroduction() {
     return (
         <main className="max-w-screen-md flex flex-col px-10 m-auto">
             <section className="text-left w-full">
-                <h1 className="font-bold text-4xl py-10">👨🏻‍💻 SeungHyun Lim</h1>
-                <div className="flex flex-row items-center justify-evenly mx-auto">
+                <h1 className="font-bold text-3xl py-10 md:text-4xl">👨🏻‍💻 SeungHyun Lim</h1>
+                <div className="flex md:flex-row flex-col items-center justify-evenly mx-auto">
+
                     <Image
                         src="/MyIMG.JPG"
                         alt="My Image"
@@ -48,7 +49,7 @@ export default function SelfIntroduction() {
                 </div>
             </section>
             <section className="text-left w-full">
-                <h1 className="font-bold text-4xl py-10">📋 Recent Posts</h1>
+                <h1 className="font-bold text-3xl md:text-4xl py-10">📋 Recent Posts</h1>
                 <main className="w-full mx-auto">
                     {posts.map((post) => (
                         <PostCard key={post._id} {...post} />

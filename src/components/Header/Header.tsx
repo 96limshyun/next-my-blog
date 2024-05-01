@@ -18,7 +18,7 @@ const Header = () => {
     return (
         <header className="sticky top-0 z-10 h-20 flex flex-row justify-around items-center border-b-4 dark:bg-customBlack bg-white">
             <div>
-                <Link href="/" className="font-bold text-2xl">SeungHyun Lim</Link>
+                <Link href="/" className="font-bold text-xl md:text-2xl">SeungHyun Lim</Link>
             </div>
             <nav className="flex">
                 {pages.map((page) => (
