@@ -9,17 +9,6 @@ const mdxComponents: MDXComponents = {
     a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
 };
 
-export const generatedStaticParams = async () => {
-    allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
-};
-
-export const generatedMetadata = ({ params }: { params: { slug: string } }) => {
-    const post = allPosts.find(
-        (post) => post._raw.flattenedPath === params.slug
-    );
-    if (!post) notFound();
-};
-
 export default function Page({ params }: { params: { slug: string } }) {
     const post = allPosts.find(
         (post) => post._raw.flattenedPath === params.slug
