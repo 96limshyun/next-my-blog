@@ -22,7 +22,7 @@ export default function Home() {
                     ></Image>
                     <div className="flex flex-col gap-6">
                         <h2 className="font-bold text-xl">
-                            학습하는 Front-Developer
+                            학습하는 Frontend-Developer
                         </h2>
                         <p className="text-gray-600">
                             성장하기 위해 노력합니다.
