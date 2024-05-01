@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { MDXComponents } from "mdx/types";
 import Link from "next/link";
 import { useMDXComponent } from "next-contentlayer/hooks";
+import Comments from "@/src/components/Comments/Comments";
 
 const mdxComponents: MDXComponents = {
     a: ({ href, children }) => <Link href={href as string}>{children}</Link>,
@@ -41,6 +42,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 <h1 className="text-3xl font-bold">{post.title}</h1>
             </div>
             <MDXContent components={mdxComponents} />
+            <Comments/>
         </article>
     );
 }
