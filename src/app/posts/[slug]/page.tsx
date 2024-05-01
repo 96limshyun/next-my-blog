@@ -18,8 +18,8 @@ export default function Page({ params }: { params: { slug: string } }) {
     const MDXContent = useMDXComponent(post.body.code);
 
     return (
-        <article className="mx-auto prose">
-            <div className="mb-8 text-center">
+        <article className="max-w-screen-md flex flex-col px-10 m-auto prose">
+            <div className="mt-8 text-center">
                 <time
                     dateTime={post.date}
                     className="mb-1 text-xs text-gray-600"

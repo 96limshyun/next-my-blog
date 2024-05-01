@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --color-bg-primary: white;
+    --color-text-primary: black;
+}
+
+.dark {
+    --color-bg-primary: #1C2A3A;
+    --color-text-primary: #f7fafc;
+}
+
+body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
