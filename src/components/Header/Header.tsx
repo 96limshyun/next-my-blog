@@ -23,10 +23,10 @@ const Header = () => {
             <nav className="flex">
                 {pages.map((page) => (
                     <Link href={page.href} key={page.href} className="p-3">
-                        <span className="inline-block font-bold text-xl">{page.name}</span>
+                        <span className="inline-block font-bold text-lg md:text-xl">{page.name}</span>
                     </Link>
                 ))}
-                <span className="flex items-center text-2xl p-4"><ThemeSwitch/></span>
+                <span className="flex items-center text-xl md:text-2xl p-4"><ThemeSwitch/></span>
             </nav>
         </header>
     );
