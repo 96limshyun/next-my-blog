@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
+    "@giscus/react": "^3.0.0",
     "contentlayer": "^0.3.4",
     "date-fns": "^3.6.0",
     "next": "14.2.3",
