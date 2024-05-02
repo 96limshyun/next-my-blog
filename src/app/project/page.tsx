@@ -16,14 +16,16 @@ const ProjectPage = () => {
         <main className="max-w-screen-md flex flex-col px-10 mt-10 mx-auto items-center justify-center">
             {projects.map((data, idx) => (
                 <Link href={data.link} key={idx}>
-                    <section className="border-2 rounded-lg w-96 h-80">
+                    <section className="flex flex-col p-6 m-3 border-2 rounded-md">
                         <Image
                             src={data.IMG}
                             alt="Image"
                             width={300}
                             height={210}
                             priority={true}
-                            className="w-full h-1/2 object-center"
+                            objectFit="none"
+                            quality={100}
+                            className="w-full h-1/2 object-center rounded-t-4"
                         ></Image>
                         <div className="w-full h-1/2 flex flex-col gap-1 pl-3">
                             <div className="text-xl font-bold my-4">📰 {data.title}</div>
