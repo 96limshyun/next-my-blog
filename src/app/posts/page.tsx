@@ -13,8 +13,8 @@ export default function PostsPage() {
     const [curCategory, setCategory] = useState(initialCategory);
 
     const switchCategory = (selectCategory: string) => {
-        const categoryList = allPosts.filter(data => data.category.includes(selectCategory))
-        setCategory(categoryList)
+        const newCategory = allPosts.filter(data => data.category.includes(selectCategory))
+        setCategory(newCategory)
     }
     return (
         <>
