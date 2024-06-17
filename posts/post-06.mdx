@@ -25,11 +25,11 @@ category: ts, React, All
 - contentEditable는 input과 달리, text를 입력 받으면 contenteditable 내부에 요소 노드들이 생성되어 그에 따라 노드들이 출력된다. value는 존재하지 않고 onInput 이벤트를 이용해 textContent 값을 받아올수 있다.
 
 
-![News Stand Image](/notion1.gif)
+![Notion1](/notion1.gif)
 
 - 이제 text를 input 태그와 같이 state에 저장하면 될것이라 생각했는데 여기서 커서가 처음으로 돌아가는 문제가 생겼다
 
-![News Stand Image](/notion2.gif)
+![Notion2](/notion2.gif)
 
 - 찾아보니 useState로 상태를 관리하면 상태가 변경될 때마다 컴포넌트가 리렌더링되어, 텍스트 입력 시 리렌더링되면 커서 위치가 초기화되는 문제가 발생한다고 한다...
 
@@ -153,7 +153,7 @@ export default BlockEditable;
 
 ### 이제 화면을 보자!
 
-![News Stand Image](/notion3.gif)
+![Notion3](/notion3.gif)
 
 - 하하.. 글자 조합이 안된다 영어는 잘되지만 한글에서 문제가 있는것 같다.. 다시 구글링을 문제를 해결해보자
 
@@ -236,11 +236,11 @@ const BlockEditable = ({
 export default BlockEditable;
 
 ```
-![News Stand Image](/notion4.gif)
+![Notion4](/notion4.gif)
 - 해결됐다! 한글이 조합되었다.
 - 이제 디반운스로 입력이 멈추면 1초뒤에 handleContentChange(index, newContent);로 서버에 저장이 되고 다시 데이터를 잘 받아오는지 확인해보자
 
-![News Stand Image](/notion5.gif)
+![Notion5](/notion5.gif)
 
 ### 3. 서버 전송 문제
 - 서버로 전송이 안된다........
@@ -260,13 +260,13 @@ const handleCompositionEnd = (e: React.FormEvent<HTMLDivElement>) => {
     };
 ```
 
-![News Stand Image](/notion6.gif)
+![Notion6](/notion6.gif)
 - 됐다 데이터가 전달되고 다시 불러와진다!!
 - 하지만 이제 해결 됐다 생각했지만 진짜 문제는 이제부터 시작이였다.
 
 ## 4. 페이지 이동시 전 커서위치 저장으로 인한 에러
 - 문제를 gif로 보자
-![News Stand Image](/notion7.gif)
+![Notion7](/notion7.gif)
 
 ### 무슨 에러인지 파악해보자
 - 위에서 "페이지3 블럭 편집"이라고 입력하고 페이지를 전환했다. 이때 무슨일이 일어나는지 하나씩 살펴보자
@@ -304,7 +304,7 @@ useEffect(() => {
 }, [id]);
 ```
 
-![News Stand Image](/notion8.gif)
+![Notion8](/notion8.gif)
 
 - 해결됐다. 하지만 또 문제가 생긴다 ㅎㅎㅎㅎㅎㅎ
 
@@ -328,7 +328,7 @@ useEffect(() => {
 
 ### 해결!
 
-![News Stand Image](/notion9.gif)
+![Notion9](/notion9.gif)
 
 ### 적용!!!!!(전체 코드)
 ```
