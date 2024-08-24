@@ -1,7 +1,11 @@
 import React from 'react';
 
-const category = ["All", "Js", "Ts", "React"];
-const emoji = ["🐶", "📒", "📘", "🛠️"]
+const categories = [
+    { name: "All", emoji: "🐶" },
+    { name: "Js", emoji: "📒" },
+    { name: "Ts", emoji: "📘" },
+    { name: "React", emoji: "🛠️" },
+];
 
 interface CategorySelectorProps {
     switchCategory: (selectCategory: string) => void;
@@ -9,14 +13,14 @@ interface CategorySelectorProps {
 
 const CategorySelector: React.FC<CategorySelectorProps> = ({ switchCategory }) => {
     return (
-        <nav className="flex gap-2 pt-10">
-            {category.map((curCategory, idx) => (
+        <nav className="flex flex-wrap gap-2 pt-10">
+            {categories.map((category, idx) => (
                 <button
-                    className="border-2 border-solid border-slate-950 rounded-xl py-1 px-3 flex items-center text-center text-lg"
+                    className="border-2 border-solid border-slate-950 rounded-xl py-1 px-3 flex items-center text-center text-lg dark:border-white"
                     key={idx}
-                    onClick={() => switchCategory(curCategory)}
+                    onClick={() => switchCategory(category.name)}
                 >
-                    {emoji[idx]} {curCategory}
+                    {category.emoji} {category.name}
                 </button>
             ))}
         </nav>

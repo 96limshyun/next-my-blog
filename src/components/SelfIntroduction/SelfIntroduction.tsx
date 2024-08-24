@@ -9,14 +9,13 @@ export default function SelfIntroduction() {
     return (
         <main className="max-w-screen-md flex flex-col px-10 m-auto">
             <section className="text-left w-full">
-                <h1 className="font-bold text-3xl py-10 md:text-4xl">👨🏻‍💻 SeungHyun Lim</h1>
+                <h1 className="font-bold text-2xl py-10">👨🏻‍💻 SeungHyun Lim</h1>
                 <div className="flex md:flex-row flex-col items-center justify-evenly mx-auto">
-
                     <Image
                         src="/MyIMG.JPG"
                         alt="My Image"
-                        width={300}
-                        height={210}
+                        width={250}
+                        height={160}
                         priority={true}
                         className="rounded-xl"
                         style={{ width: "auto", height: "auto" }}
@@ -25,7 +24,7 @@ export default function SelfIntroduction() {
                         <h2 className="font-bold text-xl">
                             학습하는 Frontend-Developer
                         </h2>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 dark:text-gray-400">
                             성장하기 위해 노력합니다.
                             <br />
                             새로운 기술을 학습하고 <br />
@@ -49,7 +48,7 @@ export default function SelfIntroduction() {
                 </div>
             </section>
             <section className="text-left w-full">
-                <h1 className="font-bold text-3xl md:text-4xl py-10">📋 Recent Posts</h1>
+                <h1 className="font-bold text-2xl pt-10 pb-3">📋 Recent Posts</h1>
                 <main className="w-full mx-auto">
                     {posts.map((post) => (
                         <PostCard key={post._id} {...post} />

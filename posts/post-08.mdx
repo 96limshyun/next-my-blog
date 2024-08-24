@@ -1,0 +1,190 @@
+---
+title: 무한스크롤 API요청이 여러번 되는 문제 해결기
+date: 2024-07-09
+content: IntersectionObserver API로 무한 스크롤을 구현 시 API 요청 여러번 되는 문제
+category: ts, All, React
+---
+
+## 문제 상황
+- IntersectionObserver API로 무한 스크롤을 구현하고 ReactQueryDevtools로 제대로 데이터를 받아오는지 확인하는데 API요청이 여러번되는 문제를 발견했다.
+![infinite](/infinite1.png)
+## 문제 로직
+- 현재 무한 스크롤 로직은 책을 보여주는 컴포넌트 최 하단에 observer을 감지할 수 있는지 태그를 하나 넣어 IntersectionObserver로 뷰가 페이지의 최하단을 교차했는지 감지하고 있다 
+```
+const BookCard = React.lazy(() => import("./BookCard/BookCard"));
+
+const BooksDisplay = () => {
+  const [viewMode, setViewMode] = useState<ViewType>("grid");
+  const { booksItem, observerRef, lastPageNum, page, isLoading } = useBooksLogic();
+
+  return (
+    <S.BookContainer>
+      <ViewSelector viewMode={viewMode} setViewMode={setViewMode} />
+      <Suspense fallback={<LoadingFallBack />}>
+        <S.BookWrap $viewMode={viewMode}>
+          {booksItem.map((book: BookContent, index: number) => (
+            <BookCard key={`${book.id}-${index}`} bookData={book} viewMode={viewMode} />
+          ))}
+        </S.BookWrap>
+        {isLoading && <LoadingFallBack />}
+      </Suspense>
+      {page === lastPageNum ? (
+        <S.LastPageView>마지막 페이지 입니다.</S.LastPageView>
+      ) : (
+        <div ref={observerRef} style={{ height: "1px" }} />
+      )}
+    </S.BookContainer>
+  );
+};
+
+export default BooksDisplay;
+
+```
+- 뷰가 위의 태그를 감지했을때 아래와 같이 page를 업데이트하고 page가 업데이트되면 쿼리를 다시 생성해 api요청을 하는 로직이다.
+```
+const handleLoadMore = useCallback(() => {
+  if (!loadingMore.current && !isFetching && page < lastPageNum) {
+    loadingMore.current = true;
+    setPage(page + 1); // 페이지 업데이트 
+  }
+}, [isFetching, page, lastPageNum, setPage]);
+
+const { observe } = useInfiniteScroll(handleLoadMore);
+
+useEffect(() => {
+  if (observerRef.current) {
+    observe(observerRef.current);
+  }
+}, [observe]);
+
+```
+- 현재 BookDisplay 컴포넌트를 보면 BookCard를 레이지 로딩을 하고 있는데 이렇게 BookCard가 그려지지 않은 상황에서 `<div ref={observerRef} style={{ height: "1px" }} />`가 먼저 렌더링되어 BookCard가 렌더링 될때까지 observerRef가 계속 교차되어 API요청이 BookCard를가 렌더링 될때까지 계속 요청되는 것이였다.
+
+## 해결 1.
+- `<div ref={observerRef} style={{ height: "1px" }} />` 태그 자체를 Suspense안으로 넣어 BookCard 컴포넌트가 레이지 로딩 될때 같이 렌더링되면 될거라 생각해 Suspens안으로 넣어줬다.
+```
+const BookCard = React.lazy(() => import("./BookCard/BookCard"));
+
+const BooksDisplay = () => {
+  const [viewMode, setViewMode] = useState<ViewType>("grid");
+  const { booksItem, observerRef, lastPageNum, page, isLoading } = useBooksLogic();
+
+  return (
+    <S.BookContainer>
+      <ViewSelector viewMode={viewMode} setViewMode={setViewMode} />
+      <Suspense fallback={<LoadingFallBack />}>
+        <S.BookWrap $viewMode={viewMode}>
+          {booksItem.map((book: BookContent, index: number) => (
+            <BookCard key={`${book.id}-${index}`} bookData={book} viewMode={viewMode} />
+          ))}
+        </S.BookWrap>
+        {isLoading && <LoadingFallBack />}
+        {page === lastPageNum ? (
+          <S.LastPageView>마지막 페이지 입니다.</S.LastPageView>
+        ) : (
+          <div ref={observerRef} style={{ height: "1px" }} />
+        )}
+      </Suspense>
+    </S.BookContainer>
+  );
+};
+
+export default BooksDisplay;
+
+```
+### 결과
+![infinite](/infinite2.png)
+- 위와 같이 코드를 변경하니 사진과 같이 요청이 첫 디폴트 쿼리로 한번만 요청되었다.
+- 하지만, 로직을 변경하니 무한스크롤 기능이 동작하지 않았다.
+- 최하단을 감지하지 못하는거라 생각해 `<div ref={observerRef} style={{ height: "1px" }} />`에 ref로 넣어준 observerRef.current를 Console로 확인하기로 했다.
+
+- 변경전
+![infinite](/infinite3.png)
+
+- 변경 후
+![infinite](/infinite4.png)
+
+- 코드를 변경한 후 observerRef의 태그가 할당되지 않는 것을 확인했다. 
+
+## 에러 이유
+- useEffect는 렌더링 이후에 실행되고 `React.lazy`로 불러오는 컴포넌트는 처음 렌더링 시점에 바로 존재하지 않고, 비동기적으로 로드된다.
+- `React.lazy`로 불러오는 컴포넌트가 로드 완료될 때까지는 `Suspense`의 `fallback`이 보여지는데 이때 observerRef를 할당하는 로직이 들어있는 useEffect가 먼저 실행되어 감지를 못 하는 것이였다.
+### 실행순서
+1. `Suspense`의 `LoadingFallBack`가 먼저 렌더링: `BookCard`가 `React.lazy`로 로드되므로, 첫 번째로 `LoadingFallBack`가 표시.
+2. `useEffect` 실행: `observerRef`가 설정되고, `useEffect` 안에서 `IntersectionObserver`가 설정
+3. `BookCard` 로드 완료: useEffect가 먼저 실행되었기 때문에 observerRef는 초기값은 null
+
+## 해결 2.
+- useEffect가 먼저 실행되니 `<div ref={observerRef} style={{ height: "1px" }} />`의 ref를 BookCard이 렌더링 되었을때 콜백함수로 할당해주기로 했다.
+### 해결 코드
+```
+// BookDisplay.tsx
+const BookCard = React.lazy(() => import("./BookCard/BookCard"));
+
+const BooksDisplay = () => {
+  const [viewMode, setViewMode] = useState<ViewType>("grid");
+  const { booksItem, observerRefCallback, lastPageNum, page, isLoading } = useBooksLogic();
+
+  return (
+    <S.BookContainer>
+      <ViewSelector viewMode={viewMode} setViewMode={setViewMode} />
+      <Suspense fallback={<LoadingFallBack />}>
+        <S.BookWrap $viewMode={viewMode}>
+          {booksItem.map((book: BookContent, index: number) => (
+            <BookCard key={`${book.id}-${index}`} bookData={book} viewMode={viewMode} />
+          ))}
+        </S.BookWrap>
+        {isLoading && <LoadingFallBack />}
+        {page === lastPageNum ? (
+          <S.LastPageView>마지막 페이지 입니다.</S.LastPageView>
+        ) : (
+          <div ref={observerRefCallback} style={{ height: "10px" }} />
+        )}
+      </Suspense>
+    </S.BookContainer>
+  );
+};
+
+export default BooksDisplay;
+
+// useBooksLogic.tsx
+const useBooksLogic = () => {
+  const query = useGenerateQuery();
+  const { data: books, isLoading, isFetching } = useQueryData(query);
+  const { booksItem, setBooksItem, page, setPage } = useQueryStore();
+  const [lastPageNum, setLastPageNum] = useState(FIRST_PAGE);
+  const loadingMore = useRef(false);
+
+  const handleLoadMore = useCallback(() => {
+    if (!loadingMore.current && !isFetching && page < lastPageNum) {
+      loadingMore.current = true;
+      setPage(page + 1);
+    }
+  }, [isFetching, page, lastPageNum, setPage]);
+
+  const { observe } = useInfiniteScroll(handleLoadMore);
+
+  const observerRefCallback = useCallback((node: HTMLDivElement) => {
+    if (node) observe(node);
+  }, [observe]);
+
+  useEffect(() => {
+    if (books && books.content) {
+      setBooksItem(page === FIRST_PAGE ? books.content : [...booksItem, ...books.content]);
+      setLastPageNum(books.totalPages);
+      loadingMore.current = false;
+    }
+  }, [books]);
+
+  return {
+    booksItem,
+    observerRefCallback,
+    lastPageNum,
+    page,
+    isLoading: isLoading || isFetching,
+  };
+};
+
+export default useBooksLogic;
+
+```

@@ -32,7 +32,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
                     enableSystem
                 >
                     <Header />
-                    <main className="flex-grow">{children}</main>
+                    <main className="flex-grow dark:bg-customBlack">{children}</main>
                     <Footer />
                 </ThemeProvider>
             </body>
