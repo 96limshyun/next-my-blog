@@ -2,8 +2,8 @@ import { defineDocumentType, makeSource } from "contentlayer/source-files";
 
 export const Post = defineDocumentType(() => ({
     name: "Post",
-    filePathPattern: `**/*.mdx`,
-    contentType: "mdx",
+    filePathPattern: `**/*.{md,mdx}`,
+    contentType: "markdown",
     fields: {
         title: {
             type: "string",
