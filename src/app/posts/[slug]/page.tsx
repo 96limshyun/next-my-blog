@@ -9,7 +9,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     if (!post) notFound();
 
     return (
-        <article className="max-w-screen-md flex flex-col px-10 m-auto prose dark:text-white">
+        <article className="max-w-3xl flex flex-col px-10 m-auto prose dark:text-white">
             <div className="mt-8">
                 <time
                     dateTime={post.date}
@@ -22,7 +22,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 </h1>
             </div>
             <hr className="border-t-2 border-gray-200 mt-4 mb-6" />
-            <ReactMarkdown className="dark:text-white prose dark:prose-invert">{post.body.raw}</ReactMarkdown> 
+            <ReactMarkdown className="dark:text-white prose dark:prose-invert max-w-3xl">{post.body.raw}</ReactMarkdown> 
             <div className="mt-20">
                 <Comment />
             </div>
