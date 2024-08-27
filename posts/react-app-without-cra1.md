@@ -1,6 +1,6 @@
 ---
 title: CRA없이 React 앱 구성하기.1
-date: 2024-08-19
+date: 2024-06-28
 content: CRA없이 React 앱을 구성해보자
 category: All, React
 ---
