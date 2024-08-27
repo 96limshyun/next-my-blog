@@ -113,7 +113,7 @@ npm install --save-dev @babel/cli @babel/core @babel/preset-react
 ![cra](/CRA8.png)
 
 - package.json에 다음과 같이 작성해줍니다.
-- 
+
 ```
 {
   "name": "react-app-without-cra",
