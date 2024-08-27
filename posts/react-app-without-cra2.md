@@ -84,7 +84,7 @@ category: All, React
 ## 빌드 타임에서 트랜스파일 할 수 있도록 수정해보자
 - 먼저 npm을 이용해 라이브러리 3개를 설치해줍니다.
 1. @babel/cli: script 명령을 통해 Babel을 실행하기 위한 패키지
-2. @babel/core: 위와 동일
+2. @babel/core: 바벨 설치
 3. @babel/preset-react: react문법을 javascript로 트랜스파일 하기 위한 패키지
 
 ```
