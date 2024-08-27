@@ -16,7 +16,7 @@ const config: Config = {
       },
       colors: {
         customBlack: '#21252A',
-        customSkillColor: '#005C8E',
+        customSkillColor: '#21252A',
       },
     },
   },
