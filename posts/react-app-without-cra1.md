@@ -25,8 +25,8 @@ category: All, React
   - JSX의 변환 과정: JSX는 실제로는 자바스크립트로 변환되는데, 이를 babel이 처리합니다. 직접 설정을 하다 보면 이 변환 과정에 대한 깊은 이해를 얻을 수 있습니다.
 - 직접 webpack과 babel을 설정해보면, 단순히 도구에 의존하는 것이 아니라 개발 과정의 근본적인 부분을 이해하게 되어, 전반적인 웹 개발 실력을 향상시킬 수 있습니다.
 
-## CRA 없이 React 앱 구성하기
-### 초기 index.html 파일 구성
+# CRA 없이 React 앱 구성하기
+## 초기 index.html 파일 구성
 - 먼저 html의 기본적인 구조를 잡아줍니다.
 ```
 <!DOCTYPE html>
@@ -40,7 +40,7 @@ category: All, React
 </html>
 ```
 
-### React 앱 구성에 필요한 패키지 설치(React, ReactDOM)
+## React 앱 구성에 필요한 패키지 설치(React, ReactDOM)
 - 가장 최소한의 형태로 React앱을 구성하기 위해 React / ReactDOM 패키지를 CDN을 통해 로드해줍니다.
 - 이 방식을 통해, 내 Local에 따로 설치하지 않고도 패키지 사용이 가능합니다.
 - unpkg.com 사이트를 이용해 npm에 등록된 거의 모든 패키지를 CDN으로 이용 가능합니다.
@@ -67,7 +67,7 @@ category: All, React
 
 ![cra](/CRA2.png)
 
-### 스크립트 태그 안에 React 코드를 넣어보자
+## 스크립트 태그 안에 React 코드를 넣어보자
 - CRA로 React앱을 처음 만들면 index.js파일이 다음과 같이 생긴 것을 확인할 수 있습니다.
 
 ![cra](/CRA3.png)
@@ -101,8 +101,8 @@ category: All, React
 ![cra](/CRA4.png)
 
 - 다음과 같이 스크립트에 문법적인 오류가 있다는 Syntax Error가 발생합니다.
-- 
-### 왜 이런 에러가 날까요?
+
+## 왜 이런 에러가 날까요?
 - React를 많이 다뤄보신 분들이라면 스크립트 중간에 아래와 같은 태그가 들어가는 것이 이상한 모습이 아닐겁니다.
 ```
 <h1>HELLO REACT</h1>
@@ -142,7 +142,8 @@ category: All, React
 ![cra](/CRA5.png)
 
 - 이렇게 JSX 없이도 앱을 만들수 있지만 이런 방식의 컴포넌트 정의는 굉장히 불편합니다.
-- 그럼 어떻게 JSX문법을 사용할 수 있을까?
+
+## 그럼 어떻게 JSX문법을 사용할 수 있을까?
 - 이때 사용하는것이 트랜스파일러(Bable 등) 입니다.
 - 쉽게 말하면 최신 문법의 자바스크립트를 구버전의 문법으로 바꿔주는 역할을 합니다.
 - 여기서 말하는 최신 문법에는 JSX같은 확장 문법이 포함됩니다.
