@@ -1,7 +1,7 @@
 ---
 title: CRA없이 React 앱 구성하기.4
 date: 2024-07-11
-content: Plugin, devtool 적용하기
+content: Plugin 적용하기
 category: All, React
 ---
 
