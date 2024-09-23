@@ -77,7 +77,7 @@ export default LibraryFilter;
 - 이러한 최적화를 통해 초기 렌더링 속도는 개선되었습니다. 하지만 여전히 사용자 입력에 대한 반응이 느렸고, 특히 검색 기능을 사용할 때 현저한 지연이 발생했습니다.
 - 실제로 이 문제는 React의 성능 경고를 통해 명확히 드러났습니다. 검색 작업을 수행할 때마다 React DevTools에서 다음과 같은 경고 메시지가 나타났습니다.
 
-![improveFilter](/improveFilter1.gif)
+![improveFilter](/ImproveFilter1.gif)
 
 - 이 경고 메시지는 컴포넌트의 렌더링 시간이 비정상적으로 길어지고 있음을 나타냅니다. 구체적으로
 
@@ -198,7 +198,7 @@ const Input = styled.input`
 ```
 - 다음과 같이 잘 적용되는 모습입니다.
 
-![improveFilter](/improveFilter2.gif)
+![improveFilter](/ImproveFilter2.gif)
 
 ### 2. 서버 사이드 필터링 구현
 - 서버 사이드 필터링을 구현하기 위해 다음과 같은 변경사항을 적용했습니다:
@@ -262,7 +262,7 @@ useEffect(() => {
 #### 개선 후 데이터량: 페이지당 20개의 데이터 (약 1.4KB)
 - 초기 5000개의 데이터 132KB에서 1.5KB씩 요청해 초기 페이지 로드 시 네트워크 부하를 크게 줄이고, 클라이언트의 메모리 사용량을 대폭 감소시켰습니다.
 
-![improveFilter](/improveFilter3.png)
+![improveFilter](/ImproveFilter3.png)
 
 ### 서버 응답시간 개선: 
 #### 초기 서버 응답 시간: 300ms (5000개 데이터 요청 시)
@@ -270,9 +270,9 @@ useEffect(() => {
 - 이는 서버에 데이터를 요청하고 응답을 받는 시간이 크게 단축되었습니다. 
 - 결과적으로 사용자는 검색 결과를 더 빠르게 볼 수 있게 되었습니다.
 
-![improveFilter](/improveFilter4.png)
+![improveFilter](/ImproveFilter4.png)
 
 
 ## 동작
 
-![improveFilter](/improveFilter5.gif)
+![improveFilter](/ImproveFilter5.gif)
