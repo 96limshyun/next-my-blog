@@ -390,12 +390,5 @@ export default errorHandlers;
 ![errorBoundary](/errorboundary4.png)
 ![errorBoundary](/errorboundary5.png)
 
-
-
-
-
-
-
-
-
+[참조 ErrorBoundary의 Fallback UI 구성하기](https://blog.naver.com/dlaxodud2388/223293010810)
 
