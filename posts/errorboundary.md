@@ -25,7 +25,7 @@ UI의 일부분에 존재하는 자바스크립트 에러가 전체 애플리케
   - React 공식 가이드라인: React 공식 문서에서는 명확하게 "현재 오류 경계를 함수 구성 요소로 작성할 방법은 없습니다"라고 명시하고 있습니다.
   - 필요한 생명주기 메서드: ErrorBoundary 구현에는 클래스 컴포넌트의 특정 생명주기 메서드가 필요합니다.
   1. getDerivedStateFromError: 이 메서드는 하위 컴포넌트에서 오류가 발생했을 때 호출됩니다. 주로 오류가 발생한 후 폴백 UI를 렌더링하는 데 사용됩니다.
-  2. componentDidCatch: 이 메서드는 오류 정보를 기록하는 데 사용됩니다.
+  2. componentDidCatch: 이 메서드는 오류 정보를 기록하는 데 사용됩니다. 이번 프로젝트에서는 오류 정보를 따로 기록하지 않을거기 때문에 해당 메서드를 사용하지 않았습니다.
   3. 함수형 컴포넌트의 한계: 현재 함수형 컴포넌트에서는 위의 생명주기 메서드와 동일한 기능을 제공하는 훅(Hook)이 없습니다. 따라서 함수형 컴포넌트로는 ErrorBoundary의 핵심 기능을 구현할 수 없습니다.
 
 - 공식문서에 나와있는 예제를 보면 아래와 같습니다.
@@ -191,21 +191,129 @@ export default errorHandlers;
 
 - 이제 위처럼 비동기 오류를 잡아낼 수 있게 되었습니다.
 
+## Error 객체 확장 시키기
+- 위 처럼 Error 객체로 statusCode를 던지면 문자열로 전달되기 때문에 메시지와 statusCode를 따로 파싱해야합니다.
+- 따라서, Error 객체를 message와 statusCode를 받을 수 있게 확장시켜봅시다.
+
+```
+export class HTTPError extends Error {
+    statusCode: number;
+
+    constructor(statusCode: number, message?: string) {
+        super(message);
+
+        this.name = "HTTPError";
+        this.statusCode = statusCode;
+    }
+}
+```
+- Error 객체를 확장시킨 HTTPError 객체로 에러를 던져 일반 Error와 HTTPError을 쉽게 구분할 수 있습니다.
+- fetch에서는 다음과 같이 HTTPError객체로 에러를 던지면 됩니다.
+
+```
+import { useEffect } from "react";
+import { HTTPError } from "./HTTPError";
+const DEFAULT_STATUS_CODE = 400
+
+const ApiComponent = () => {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("errorAPI");
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new HTTPError(response.status, errorData.message)
+                }
+            } catch (error) {
+                if (error instanceof Error) {
+                    throw error;
+                } else {
+                    throw new HTTPError(DEFAULT_STATUS_CODE);
+                }
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return <div>ApiComponent</div>;
+};
+
+export default ApiComponent;
+```
+
+- 에러바운더리 코드는 HTTPError 타입을 확인할 수 있도록 다음과 같이 수정해줍니다.
+
+```
+import React, { ComponentType, ReactNode } from "react";
+import { HTTPError } from "../components/HTTPError";
+
+export interface ErrorProps {
+    statusCode?: number;
+    resetError?: () => void;
+    message?: string;
+}
+
+interface ErrorBoundaryProps {
+    fallback: ComponentType<ErrorProps>;
+    onReset: () => void;
+    children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+    hasError: boolean;
+    error: Error | HTTPError |null;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    constructor(props: ErrorBoundaryProps) {
+        super(props);
+        this.state = { hasError: false, error: null };
+        this.captureReject = this.captureReject.bind(this);
+        this.resetError = this.resetError.bind(this);
+    }
+
+    static getDerivedStateFromError(error: Error | HTTPError) {
+        return { hasError: true, error };
+    }
+
+    componentDidMount() {
+        window.addEventListener("unhandledrejection", this.captureReject);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.captureReject);
+    }
+
+    captureReject(e: PromiseRejectionEvent) {
+        e.preventDefault();
+        this.setState({ hasError: true, error: e.reason });
+    }
+
+    resetError() {
+        this.props.onReset()
+        this.setState({ hasError: false, error: null });
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <div>에러바운더리</div>
+        }
+
+        return this.props.children;
+    }
+}
+
+export default ErrorBoundary;
+```
+
 ## HTTP 상태코드에 따른 ErrorBoundary의 Fallback UI 보여주기
 - 이제 throw한 상태코드를 받아 코드에 따라 선언적으로 fallback UI 보여주도록 해봅시다.
 - 간단한 예시로 400, 404, 500에 대한 처리를 해보겠습니다.
 
 ```
 // ErrorFallback.tsx
-export interface ErrorProps {
-    statusCode?: number;
-    resetError?: () => void;
-}
-
-export interface ErrorProps {
-    statusCode?: number;
-    resetError?: () => void;
-}
+import { ErrorProps } from "./ErrorBoundary";
 
 export const HTTP_ERROR_MESSAGE = {
     404: {
@@ -225,15 +333,17 @@ export const HTTP_ERROR_MESSAGE = {
     },
 } as const;
 
-const ErrorFallback = ({ statusCode = 404, resetError }: ErrorProps) => {
+const ErrorFallback = ({ statusCode = 404, resetError, message }: ErrorProps) => {
     const currentStatusCode = statusCode as keyof typeof HTTP_ERROR_MESSAGE;
+    const {HEADING, BODY, BUTTON} = HTTP_ERROR_MESSAGE[currentStatusCode]
     return (
         <div>
-            <h1>{HTTP_ERROR_MESSAGE[currentStatusCode].HEADING}</h1>
-            <p>{HTTP_ERROR_MESSAGE[currentStatusCode].BODY}</p>
+            <h1>{HEADING}</h1>
+            <p>{BODY}</p>
             <button onClick={resetError}>
-                {HTTP_ERROR_MESSAGE[currentStatusCode].BUTTON}
+                {BUTTON}
             </button>
+            <div>{message}</div>
         </div>
     );
 };
@@ -244,6 +354,7 @@ export default ErrorFallback;
 1. ErrorProps 인터페이스:
    - statusCode: 오류의 HTTP 상태 코드를 나타냅니다.
    - resetError: 오류 상태를 리셋하는 함수입니다.
+   - message: 서버에서 전송한 메시지를 나타냅니다.
 
 2. HTTP_ERROR_MESSAGE:
    - 각 HTTP 상태 코드에 대한 메시지를 정의한 객체입니다.
@@ -256,55 +367,17 @@ export default ErrorFallback;
    - currentStatusCode를 keyof typeof HTTP_ERROR_MESSAGE로 타입 단언하여 타입 안정성을 확보합니다.
 
 - 이제 ErrorBoundary에 fallback, onReset을 props로 넘겨봅시다.
-```
-function AppContent() {
-  const navigate = useNavigate()
-  return (
-    <ErrorBoundary 
-      fallback={ErrorFallback} 
-      onReset={()=>{ navigate('/') }}
-    >
-      <ApiComponent />
-    </ErrorBoundary>
-  )
-}
-```
-
-- ErrorBoundary에서 error를 선언해 에러가 발생했을때 fallback에 error에 있는 statusCode를 넘겨줍니다.
-```
-this.state = { hasError: false, error: null };
-```
-
-- 에러가 발생했을때 throw한 에러를 state에 업데이트 해줍니다.
-```
-captureReject(e: PromiseRejectionEvent) {
-    e.preventDefault();
-    const error = e.reason instanceof Error ? e.reason : new Error(String(e.reason));
-    this.setState({ hasError: true, error });
-}
-```
-
-- state가 업데이트 되면 statusCode를 fallback에 넘겨줍니다.
-```
-render(): ReactNode {
-    const { fallback: Fallback, children } = this.props;
-    if (this.state.hasError) {
-        const status = this.state.error?.message ? parseInt(this.state.error.message) : undefined
-
-        return <Fallback 
-            statusCode={status}
-            resetError={this.resetError}
-        />;
-    }
-
-    return children;
-}
-```
 
 ### 전체코드
 ```
 import React, { ComponentType, ReactNode } from "react";
-import { ErrorProps } from "./ErrorFallback"; 
+import { HTTPError } from "../components/HTTPError";
+
+export interface ErrorProps {
+    statusCode?: number;
+    resetError?: () => void;
+    message?: string;
+}
 
 interface ErrorBoundaryProps {
     fallback: ComponentType<ErrorProps>;
@@ -314,7 +387,7 @@ interface ErrorBoundaryProps {
 
 interface ErrorBoundaryState {
     hasError: boolean;
-    error: Error | null;
+    error: Error | HTTPError |null;
 }
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -325,7 +398,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
         this.resetError = this.resetError.bind(this);
     }
 
-    static getDerivedStateFromError(error: Error) {
+    static getDerivedStateFromError(error: Error | HTTPError) {
         return { hasError: true, error };
     }
 
@@ -339,8 +412,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
     captureReject(e: PromiseRejectionEvent) {
         e.preventDefault();
-        const error = e.reason instanceof Error ? e.reason : new Error(String(e.reason));
-        this.setState({ hasError: true, error });
+        this.setState({ hasError: true, error: e.reason });
     }
 
     resetError() {
@@ -351,11 +423,11 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     render(): ReactNode {
         const { fallback: Fallback, children } = this.props;
         if (this.state.hasError) {
-            const status = this.state.error?.message ? parseInt(this.state.error.message) : undefined
-
             return <Fallback 
-                statusCode={status}
+                statusCode={this.state.error instanceof HTTPError ? this.state.error.statusCode : undefined }
+                // HTTPError가 아니라면 undefined를 던져 ErrorFallback에서 디폴트로 설정한 statusCode로 처리되도록 합니다.
                 resetError={this.resetError}
+                message={this.state.error?.message || undefined}
             />;
         }
 
