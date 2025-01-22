@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     icons: {
         icon: "/titleIcon.png",
     },
+    verification: {
+        google: "google5cf068f018a3d6c3"
+    }
 };
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
