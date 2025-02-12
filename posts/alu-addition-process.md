@@ -1,6 +1,6 @@
 ---
 title: ALU의 숫자 계산 
-date: 2025-02-03
+date: 2025-01-28
 content: ALU의 숫자 계산, 전가산기, 반가산기
 category: CS, All
 ---
