@@ -1,7 +1,7 @@
 ---
-title: UDP(User Datagram Protocol)는 TCP(Transmission Control Protocol)와 차이점
+title: UDP와 TCP의 차이점
 date: 2025-02-12
-content: UDP(User Datagram Protocol)는 TCP(Transmission Control Protocol)와 차이점
+content: UDP(User Datagram Protocol)와 TCP(Transmission Control Protocol)의 차이점을 알아보자.
 category: CS, All
 ---
 
