@@ -5,6 +5,7 @@ const categories = [
     { name: "Js", emoji: "📒" },
     { name: "Ts", emoji: "📘" },
     { name: "React", emoji: "🛠️" },
+    { name: "CS", emoji: "💾" },
 ];
 
 interface CategorySelectorProps {
