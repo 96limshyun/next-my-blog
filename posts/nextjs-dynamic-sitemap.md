@@ -93,7 +93,7 @@ declare namespace MetadataRoute {
 }
 ```
 
-- MetadataRoute를 보니 sitemap 말고도 Robots, Manifest도 동적으로 생성할 수 있는것 같은데 저는 sitemap만 동적으로 생성할거니 다른건 다루지 않겠습니다.
+- MetadataRoute를 보니 sitemap 말고도 Robots, Manifest도 동적으로 생성할 수 있는것 같은데 저는 sitemap만 생성할거니 다른건 다루지 않겠습니다.
 - SitemapFile 타입은 위와 같은 구조를 가지고 있는데 각 필드는 다음과 같습니다.
 
 1. url: string
@@ -129,7 +129,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 }
 ```
 
-## sitemap 확인
+- 이제 test.md 파일을 만들고 /sitemap.xml로 들어가보면 아래와 같이 sitemap이 생성된걸 확인할 수 있습니다.
 
+![sitemap](/sitemap.png)
+
+## 결론
+- 이제 블로그 글을 추가할 때마다 sitemap을 직접 수정할 필요 없이, 자동으로 최신 상태를 유지하게 되었습니다.
+- Next.js의 MetadataRoute.Sitemap를 사용하면 간편하게 동적 sitemap을 생성할 수 있고, robots.txt나 manifest.json도 동적으로 생성할 수 있습니다.
+- Next.js로 블로그를 운영중인 분들은 이 방법을 적용하면 운영을 더 효율적으로 할 수 있을것 같습니다.
 
 
