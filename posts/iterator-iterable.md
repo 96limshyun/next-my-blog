@@ -2,7 +2,7 @@
 title: iterable, iterator
 date: 2025-03-20
 content: iterable, iterator과 for..of..
-category: JS, All
+category: Js, All
 ---
 
 ## 같은 객체인데 왜 어떤것은 for...of..가 동작하고 어떤 것은 안될까?
