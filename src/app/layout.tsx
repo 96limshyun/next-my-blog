@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { ThemeProvider } from "next-themes";
+import 'prism-themes/themes/prism-one-dark.css';
 
 const notoSansKr = Noto_Sans_KR({
     weight: ["500"],
