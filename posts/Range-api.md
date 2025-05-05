@@ -22,7 +22,7 @@ category: ts, React, All
 ### 드래그한 텍스트 감지
 - 텍스트를 드래그한 후, mouseUp 이벤트가 발생했을 때 selection.toString() 메서드를 사용하여 선택된 텍스트가 빈 문자열이 아닌지 확인하고, 빈 문자열이 아닐 경우에만 폰트 변경 박스를 표시하도록 했다.
 
-```
+```tsx
 import React, { useEffect, useRef, useState } from "react";
 import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
 import restoreCaretPosition from "../../../utils/restoreCaretPosition";
@@ -157,7 +157,7 @@ export default BlockEditable;
 2. document.createElement("span")으로 새로운 태그를 만들어 선택한 스타일을 적용
 3. range.surroundContents(span)로 선택부분에 스타일이 적용된 span으로 감싼다.
 
-```
+```tsx
 import React, { useRef } from 'react'
 import styled from "styled-components";
 import { BoldOutlined, ItalicOutlined, UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
@@ -236,7 +236,7 @@ export default TextSwitcherBox
 4. 원래 선택된 범위의 내용을 삭제한다.
 5. 스타일 적용 후 삽입한다.
    
-```
+```tsx
 const applyStyle = (style: string) => {
     const selection = window.getSelection();
     if (!selection?.rangeCount) return;
@@ -279,7 +279,7 @@ const applyStyle = (style: string) => {
 - 2번 문제는 node.nodeType === Node.ELEMENT_NODE 조건은 div, span, p 등과 같은 요소 노드를 의미한다. 하지만 선택된 텍스트가 실제 텍스트 노드인 경우, 이는 TEXT_NODE로 판단되어 else 문으로 이동하고 있었다.
   - 해결방안: Node.TEXT_NODE를 Node.ELEMENT_NODE와 함께 처리할 수 있도록 코드를 수정, 선택된 텍스트가 SPAN 요소 내에 있을 경우, 부모 노드를 확인하여 스타일을 적용하거나 제거, 클론된 노드가 ELEMENT_NODE일 경우와 TEXT_NODE일 경우를 각각 처리하여 스타일을 적용한다.
 
-```
+```tsx
 const applyStyle = (style: string) => {
         const selection = window.getSelection();
         if (!selection?.rangeCount) return;
@@ -327,7 +327,7 @@ const applyStyle = (style: string) => {
 
 
 ## 최종 코드
-```
+```tsx
 // BlockEditable.tsx
 
 import React, { useEffect, useRef, useState } from "react";
@@ -452,7 +452,7 @@ export default BlockEditable;
 
 ```
 
-```
+```tsx
 // TextSwitcherBox.tsx
 
 import React, { useRef } from "react";

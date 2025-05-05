@@ -26,7 +26,7 @@ age += 1; // 런타임에 정상, age는 "121"
 ## any는 함수 시그니처를 무시해 버립니다.
 - 함수를 작성할 때는 시그니처를 명시해야 합니다. 호출하는 쪽은 약속된 타입의 입력을 제공하고, 함수는 약속된 타입의 출력을 반환합니다. 그러나 any타입을 사용하면 이런 약속을 어길 수 있습니다.
 
-```
+```ts
 function calculateAge (birthDate: Date) {
     // ...
 }
@@ -48,7 +48,7 @@ calculateAge(birthDate)
 ## any 타입은 코드 리펙터링 때 버그를 감춥니다.
 - 어떤 아이템을 선택할 수 있는 웹 어플리케이션을 만든다고 가정해 보겠습니다. 어플리케이션에는 onSelectItem 콜백이 있는 컴포넌트가 있을 겁니다. 선택하려는 아이템의 타입이 무엇인지 알기 어려우니 any를 사용해 보겠습니다.
 
-```
+```ts
 interface ComponentProps {
     onSelectItem: (item: any) => void;
 }
@@ -66,7 +66,7 @@ renderSelector({onSelectItem: handleSelectItem})
 
 - onSelectItem에 아이템 객체를 필요한 부분만 전달하도록 컴포넌트를 개선해 보겠습니다. 여기서는 id만 필요합니다. 
 
-```
+```ts
 interface ComponentProps {
     onSelectItem: (id: number) => void;
 }
@@ -78,14 +78,14 @@ interface ComponentProps {
 
 1. 오류의 원인: handleSelectItem 함수는 여전히 item 객체를 기대하고 있지만, 이제 컴포넌트는 id만을 전달합니다.
 2. 런타임 오류
-```
+```ts
 function handleSelectItem(item: any) {
     selectedId = item.id;
 }
 ```
    - 이 함수가 실행될 때, item은 더 이상 객체가 아니라 숫자(number)입니다. 따라서 item.id를 접근하려고 할 때 다음과 같은 오류가 발생합니다:
 
-```
+```bash
 TypeError: Cannot read property 'id' of undefined
 TypeError: item.id is not a property
 ```

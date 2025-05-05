@@ -7,7 +7,7 @@ category: Js, React, All
 
 ## 환경변수 알기전 하드코딩...
 - 개발을 하며 배포는 해본적이 없어 그동안 아래와 같이 서버를 하드코딩 해왔는데, 마스터에게 서버URL 제발 하드코딩 하지말라는 피드백을 받았다...
-```
+```ts
 export const APIManager = {
     async getNewsData(tableName) {
         const news = await fetch(`http://localhost:3000/${tableName}`);
@@ -43,7 +43,7 @@ export const APIManager = {
 ## .evn 파일 생성
 - 먼저 루트에 .env파일을 생성한다. .env파일은 항상 프로젝트 최상단에 위치해야한다.
 - 환경 변수는 외부에 공개되면 안되기 때문에 .env파일을 .gitignore파일에 올려야한다.
-```
+```md
 gitIgnore
 > .env 
 ```
@@ -63,7 +63,7 @@ gitIgnore
 #### npm run start > .env.development 환경변수를 실행한다.
 #### npm run build > .env.production 환경변수를 실행한다.
 
-```
+```md
 # development 개발 env실행
 $ npm start
 
@@ -72,7 +72,7 @@ $ npm run build
 ```
 
 ## 적용!
-```
+```ts
 const serverURL = process.env.REACT_APP_SERVER;
 
 export const APIManager = {

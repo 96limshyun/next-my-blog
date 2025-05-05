@@ -24,7 +24,7 @@ category: React, All
 
 ## Reducer, Context API 적용!
 
-```
+```tsx
 const initialState = {
     isSubscribeView: false,
     isListView: false,
@@ -37,7 +37,7 @@ const initialState = {
 
 - 버튼을 누를때 action을 정의해 각 action 마다 initialState의 값을 어떻게 바꿀 것인지 설정한다.
 
-```
+```tsx
 function ViewReducer(state, { type }) {
     switch (type) {
         case "SET_SUBSCRIBE_VIEW":
@@ -55,7 +55,7 @@ function ViewReducer(state, { type }) {
 ```
 
 ### ViewsProvider 전체 코드
-```
+```tsx
 import React, { useReducer } from "react";
 
 export const ViewContext = React.createContext();
@@ -95,7 +95,7 @@ export const ViewProvider = (props) => {
 
 - View상태를 공유하는 제일 상위 컴포넌트에 ViewsProvider를 감싸 하위 컴포넌트에서 사용 할 수 있도록 해준다.
 - 이제 MainView 컴포넌트의 하위 컴포넌트는 useContext로 ViewState의 상태를 관리할 수 있다.
-```
+```tsx
 import React from "react";
 import PressViewSelector from "./PressViewSelector/PressViewSelector";
 import NewsFeed from "./NewsFeed/NewsFeed";
@@ -116,7 +116,7 @@ const MainView = () => {
 
 ## useContext, reducer action 적용
 - 각 버튼마다 어떤 action을 취할 것인지 정의해 ViewState의 상태 값을 바꿔준다.
-```
+```tsx
 import React, { useContext } from 'react'
 import { ViewContext } from '../ViewStore'
 
@@ -145,7 +145,7 @@ const PressViewSelector = () => {
 
 ## ViewState값에 따라 하위 컴포넌트 상태 변경
 
-```
+```tsx
 import { ViewContext } from "../ViewStore";
 
 const NewsFeed = () => {

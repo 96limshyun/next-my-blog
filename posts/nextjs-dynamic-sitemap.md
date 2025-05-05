@@ -45,7 +45,7 @@ category: SEO, All
 - 동적 sitemap을 생성하기 위해 Next.js [sitemap.xml 문서](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap)를 참고했습니다.
 - 공식문서에 나와있는 예제는 다음과 같습니다.
 
-```
+```tsx
 import type { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -75,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 - 먼저 sitemap.xml 파일을 sitemap.ts 파일로 변경 후, MetadataRoute.Sitemap이라는 타입으로 반환하면 됩니다.
 - MetadataRoute.Sitemap의 소스코드는 다음과 같습니다.
 
-```
+```ts
 type SitemapFile = Array<{
     url: string;
     lastModified?: string | Date;
@@ -115,7 +115,7 @@ declare namespace MetadataRoute {
 - 제 블로그는 contentlayer 라이브러리를 통해 md파일을 파싱하고 있습니다.
 - contentlayer로 모든 post를 가져와 위와 같은 형식으로 반환하면 됩니다.
 
-```
+```ts
 import type { MetadataRoute } from 'next'
 import { allPosts } from '@/.contentlayer/generated'
 

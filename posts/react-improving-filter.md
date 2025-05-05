@@ -11,7 +11,7 @@ category: React, All
 
 - 먼저, 제가 구현한 LibraryFilter 컴포넌트의 초기 코드를 간단히 살펴보겠습니다.
 
-```
+```tsx
 import { useLibraryFilter } from "@/hooks/useLibraryFilter";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import * as S from "@/styles/LibraryFilterStyle";
@@ -109,7 +109,7 @@ export default LibraryFilter;
 
 #### input 분리
 
-```
+```tsx
 import { useLibraryFilter } from "@/hooks/useLibraryFilter";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import * as S from "@/styles/LibraryFilterStyle";
@@ -150,7 +150,7 @@ export default LibraryFilter;
 ```
 
 #### 분리한 인풋에 디바운스 적용
-```
+```tsx
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import { DEBOUNCE_TIME } from "@/constants";
@@ -207,7 +207,7 @@ const Input = styled.input`
     - 사용자의 검색어(debounceValue)와 현재 페이지(libraryPage)를 기반으로 쿼리 파라미터를 동적으로 생성합니다.
     - 이를 통해 서버에 필요한 데이터만 요청할 수 있습니다.
 
-```
+```tsx
 useEffect(() => {
     const queryParams = { 
         name: debounceValue === "" ? "서울" : debounceValue, 
@@ -223,14 +223,14 @@ useEffect(() => {
 
 2. 서버 요청 로직
     - useLibrariesQuery 훅을 사용하여 생성된 쿼리로 서버에 데이터를 요청합니다.
-```
+```tsx
 const { data: libraries, isLoading } = useLibrariesQuery(query);
 ```
 
 3. 데이터 관리:
     - 서버로부터 받은 데이터를 librariesItem 상태에 저장합니다.
     - 첫 페이지 요청인 경우 데이터를 새로 설정하고, 그 외의 경우 기존 데이터에 새 데이터를 추가합니다.
-```
+```tsx
 useEffect(() => {
     if(libraries && libraries.content) 
         setLibrariesItem(libraryPage === FIRST_PAGE 
@@ -242,7 +242,7 @@ useEffect(() => {
 4. 페이지네이션 처리:
     - 기존에 구현했던 useInfiniteScroll을 사용해 무한 스크롤을 적용하여 사용자가 목록의 끝에 도달했을 때 자동으로 다음 페이지를 로드합니다.
   
-```
+```tsx
 const handleLoadMore = () => setLibraryPage(prev => prev + 1);
 const { observe } = useInfiniteScroll(handleLoadMore);
 

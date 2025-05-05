@@ -17,7 +17,7 @@ category: All, React
 - Babel: "https://unpkg.com/@babel/standalone@7.25.5/babel.min.js"
 - script 태그로 Babel CDN 링크를 정의해주고, Babel 패키지가 정상적으로 로드되었으면 이제 스크립트를 JSX 문법으로 바꿔줍니다.
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +48,7 @@ category: All, React
 - 브라우저에게 어떤 스크립트를 Babel로 변환하고 싶은지 알려주지 않았기 때문입니다.
 - `<script type="text/babel"></script>` 옵션을 주면 해결됩니다.
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,7 +87,7 @@ category: All, React
 2. @babel/core: 바벨 설치
 3. @babel/preset-react: react문법을 javascript로 트랜스파일 하기 위한 패키지
 
-```
+```bash
 npm install --save-dev @babel/cli @babel/core @babel/preset-react 
 ```
 
@@ -96,7 +96,7 @@ npm install --save-dev @babel/cli @babel/core @babel/preset-react
 ## Babel 설정하기
 - Babel은 실행될때 내부적으로 .babelrc라는 파일명을 찾아 설정 정보를 읽기 때문에, 루트 디렉토리에 .babelrc 파일을 만든 후, 위 preset 정보를 넣어줍니다.
 - presets는 Babel에게 어떤 규칙을 기반으로 코드를 변환할지를 지시하는 설정이다
-```
+```json
 {
     // Babel에게 React 코드를 컴파일하는 데 필요한 설정을 적용하라고 지시합니다.
     "presets": ["@babel/preset-react"]
@@ -114,7 +114,7 @@ npm install --save-dev @babel/cli @babel/core @babel/preset-react
 
 - package.json에 다음과 같이 작성해줍니다.
 
-```
+```json
 {
   "name": "react-app-without-cra",
   "version": "1.0.0",
@@ -148,7 +148,7 @@ npm install --save-dev @babel/cli @babel/core @babel/preset-react
 ## index.html에서 빌드된 dist 폴더의 스크립트를 실행하도록 수정
 - npm으로 Babel 패키지를 다운 받았으니 Babel CDN은 지워주고 index.html 파일을 다음과 같이 수정합니다.
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>

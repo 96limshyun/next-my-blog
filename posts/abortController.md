@@ -30,7 +30,7 @@ category: JS, All
  - 하지만 요구사항에 fetch요청 시에 의도적으로 5초를 지연시키고, 데이터를 가져오는 5초 동안 사용자가 다른 기사를 클릭하면, 전 fetch요청을 취소하고 새로운 fetch를 요청해야하는 까다로운 미션이였다.
 
 ### fetch 요청 적용
-```
+```js
 const REQUEST_DELAY = 5000
 let controller = null;
 

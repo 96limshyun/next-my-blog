@@ -10,7 +10,7 @@ category: React, All
 ## React state batches 업데이트
 - 다음 코드에서 setNumber(number + 1)를 세 번 호출하므로 “+3” 버튼을 클릭하면 세 번 증가할 것으로 예상할 수 있습니다.
 
-```
+```jsx
 import { useState } from 'react';
 
 export default function Counter() {
@@ -31,7 +31,7 @@ export default function Counter() {
 - 하지만 버튼을 클릭하면 세 번 증가하는 것이 아니라 한 번만 증가하는 것을 확인할 수 있습니다.
 - 이는 이벤트 트리거 당시 그 시점의 스냅샷을 찍어 렌더링 당시의 state를 사용해 계산되기 때문입니다.[스탭샷으로서의 State](https://ko.react.dev/learn/state-as-a-snapshot#rendering-takes-a-snapshot-in-time)
 - 첫 번째 렌더링의 이벤트 핸들러의 number 값은 setNumber(1)을 몇 번 호출하든 항상 0입니다.
-```
+```jsx
 setNumber(0 + 1);
 setNumber(0 + 1);
 setNumber(0 + 1);
@@ -45,7 +45,7 @@ setNumber(0 + 1);
 ## 렌더링 전에 동일한 state 변수를 여러 번 업데이트 하려면?
 - 흔한 사례는 아니지만, 다음 렌더링 전에 동일한 state 변수를 여러 번 업데이트 하고 싶다면 setNumber(number + 1) 와 같은 다음 state 값을 전달하는 대신, setNumber(n => n + 1) 와 같이 이전 큐의 state를 기반으로 다음 state를 계산하는 함수를 전달할 수 있습니다. 이는 단순히 state 값을 대체하는 것이 아니라 React에 “state 값으로 무언가를 하라”고 지시하는 방법입니다.
 
-```
+```jsx
 import { useState } from 'react';
 
 export default function Counter() {
@@ -78,7 +78,7 @@ export default function Counter() {
 ## 업데이트 후 state를 바꾸면 어떻게 될까?
 - 한 가지 예를 더 들어보겠습니다. 다음 렌더링에서 number가 어떻게 될까요?
 
-```
+```jsx
 <button onClick={() => {
   setNumber(number + 5);
   setNumber(n => n + 1);
@@ -100,7 +100,7 @@ export default function Counter() {
 2. 업데이트는 새로운 값이나 이전 state를 기반으로 새 state를 계산하는 함수일 수 있습니다.
 3. 마지막 업데이트가 최종 state가 됩니다.
 
-```
+```jsx
 export function getFinalState(baseState, queue) {
   return queue.reduce(
         (acc, update) => (typeof update === "function" ? update(acc) : update),
@@ -117,7 +117,7 @@ export function getFinalState(baseState, queue) {
   - 그렇지 않다면 해당 값을 새로운 state로 사용합니다.
 - 최종적으로 계산된 state를 반환합니다.
 
-```
+```jsx
 import { getFinalState } from './processQueue.js';
 
 function increment(n) {

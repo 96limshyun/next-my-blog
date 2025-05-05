@@ -41,7 +41,7 @@ category: Js, Ts, All
 
 #### newsModel.ts
 - Model에서는 전체 뉴스 데이터, 선택한 뉴스 데이터, 다음 뉴스 데이터를 가져오고 업데이트를 하면 setTitleList로 list를 업데이트 할 수 있도록 했다.
-```
+```ts
 interface NewsItem {
     id: number;
     title: string;
@@ -69,7 +69,7 @@ export class NewsModel {
 
 #### viewRenderer.ts
 - View에서는 Controller에서 전달한 데이터 값으로 웹에 직접 그리도록 분리하였다.
-```
+```ts
 interface NewsItem {
     id: number;
     title: string;
@@ -89,7 +89,7 @@ export { renderTimer, renderNewsList, renderNewsContent, renderLoading }
 #### eventController.ts
 - eventController에서는 사용자의 입력을 받아 모델에게 데이터 업데이트를 요청하거나 모델로부터 데이터를 가져와 뷰에 전달하도록 했다.
 
-```
+```ts
 import { renderTimer, renderNewsList, renderNewsContent, renderLoading } from "../view/viewRenderer.js"
 import { getNewsTitles, getNewsContent } from "../model/newsAPI.js";
 import { NewsModel } from "../model/newsModel.js";

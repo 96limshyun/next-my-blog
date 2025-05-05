@@ -16,13 +16,13 @@ category: React, All
 - eslint-plugin-import는 ESlint의 플러그인 중 하나로, import 문을 분석하고 정리하는 역할을 합니다.
 - 아래 명령어로 install 해줍니다.
 
-```
+```bash
 npm install --save-dev eslint-plugin-import
 ```
 
 - package.json의 “devDependencies”에 eslint-plugin-import가 추가 된 것을 확인하고, eslint.config.js에 ESlint가 해당 plugin을 인식할 수 있도록 추가합니다.
 
-```
+```js
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -80,7 +80,7 @@ export default tseslint.config(
 ## import/order 속성
 
 1. "error"
-```
+```js
 "import/order": ["error", {...}]
 ```
 - "error" 규칙을 위반하면 ESLint에서 에러(Error)로 처리합니다.
@@ -125,7 +125,7 @@ alphabetize: { order: "asc", caseInsensitive: true }
 - **만약 에디터에서는 에러가 표시되지 않지만, 터미널에서 npm run lint 실행 시에만 터미널에서 오류가 발생한다면, eslint 또는 VSCode를 재시작 하면 해결됩니다.**
 
 ## 전체 코드
-```json
+```js
 import js from "@eslint/js";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -184,7 +184,7 @@ export default tseslint.config(
 
 - 메시지와 같이 --fix를 사용해 import 규칙을 자동으로 정렬하게 할 수 있습니다.
 
-```
+```bash
 npm run lint -- --fix
 ```
 
@@ -199,7 +199,7 @@ npm run lint -- --fix
 }
 ```
 
-```
+```bash
 npm run lint:fix
 ```
 

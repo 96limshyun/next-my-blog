@@ -13,7 +13,7 @@ category: ts, All, React
 ## 문제의 원인
 - 현재 무한 스크롤 로직은 책을 보여주는 컴포넌트의 최하단에 `<div> `태그를 하나 두고, 이 태그가 화면에 보이는지 여부를 IntersectionObserver로 감지하여 추가 데이터를 로드하는 방식입니다.
 
-```
+```tsx
 const BookCard = React.lazy(() => import("./BookCard/BookCard"));
 
 const BooksDisplay = () => {
@@ -46,7 +46,7 @@ export default BooksDisplay;
 
 - 스크롤이 끝에 도달하면 observerRef가 할당된 `<div>` 태그가 화면과 교차했는지 감지하고, 이때 handleLoadMore 함수가 호출되어 페이지를 업데이트하면서 새로운 API 요청을 만듭니다.
 
-```
+```tsx
 const handleLoadMore = useCallback(() => {
   if (!loadingMore.current && !isFetching && page < lastPageNum) {
     loadingMore.current = true;
@@ -69,7 +69,7 @@ useEffect(() => {
 ## 해결 1: Suspense 내부로 observer 이동
 - `<div ref={observerRef} style={{ height: "1px" }} />` 태그를 Suspense 안으로 넣어 BookCard 컴포넌트가 로드될 때 함께 렌더링되도록 수정했습니다.
 
-```
+```tsx
 const BookCard = React.lazy(() => import("./BookCard/BookCard"));
 
 const BooksDisplay = () => {
@@ -126,7 +126,7 @@ export default BooksDisplay;
 - useEffect가 먼저 실행되는 문제를 해결하기 위해, `<div ref={observerRef} style={{ height: "1px" }} />`에 ref를 할당하는 방식 대신 observerRefCallback 콜백 함수를 사용하여 BookCard가 렌더링된 이후에 ref를 할당하도록 수정했습니다.
 
 ### 해결 코드
-```
+```tsx
 // BookDisplay.tsx
 const BookCard = React.lazy(() => import("./BookCard/BookCard"));
 

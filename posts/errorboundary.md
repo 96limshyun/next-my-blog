@@ -76,7 +76,7 @@ class ErrorBoundary extends React.Component {
 - MDN을 보면 알 수 있지만, "unhandledrejection"이벤트는 프로미스가 reject상태가 되었을 때 중간 rejection이 없을 때 발생하는 이벤트입니다.
 - "unhandledrejection" 이벤트를 사용해 위의 에러바운더리 코드를 수정하고 타입을 정의해 봅시다.
 
-```
+```tsx
 import React, { ReactNode } from "react";
 
 interface ErrorBoundaryProps {
@@ -136,7 +136,7 @@ export default ErrorBoundary
 - 이제 하위 컴포넌트에서 비동기 에러가 발생했을때 throw한 에러를 에러바운더리에서 잡을 수 있습니다.
 - 간단하게 msw로 api를 만들어 상태코드 400을 던져보겠습니다.
 
-```
+```tsx
 // App.tsx
 <ErrorBoundary >
     <ApiComponent />
@@ -195,7 +195,7 @@ export default errorHandlers;
 - 위 처럼 Error 객체로 statusCode를 던지면 문자열로 전달되기 때문에 메시지와 statusCode를 따로 파싱해야합니다.
 - 따라서, Error 객체를 message와 statusCode를 받을 수 있게 확장시켜봅시다.
 
-```
+```tsx
 export class HTTPError extends Error {
     statusCode: number;
 
@@ -210,7 +210,7 @@ export class HTTPError extends Error {
 - Error 객체를 확장시킨 HTTPError 객체로 에러를 던져 일반 Error와 HTTPError을 쉽게 구분할 수 있습니다.
 - fetch에서는 다음과 같이 HTTPError객체로 에러를 던지면 됩니다.
 
-```
+```tsx
 import { useEffect } from "react";
 import { HTTPError } from "./HTTPError";
 const DEFAULT_STATUS_CODE = 400
@@ -244,7 +244,7 @@ export default ApiComponent;
 
 - 에러바운더리 코드는 HTTPError 타입을 확인할 수 있도록 다음과 같이 수정해줍니다.
 
-```
+```tsx
 import React, { ComponentType, ReactNode } from "react";
 import { HTTPError } from "../components/HTTPError";
 
@@ -311,7 +311,7 @@ export default ErrorBoundary;
 - 이제 throw한 상태코드를 받아 코드에 따라 선언적으로 fallback UI 보여주도록 해봅시다.
 - 간단한 예시로 400, 404, 500에 대한 처리를 해보겠습니다.
 
-```
+```tsx
 // ErrorFallback.tsx
 import { ErrorProps } from "./ErrorBoundary";
 
@@ -369,7 +369,7 @@ export default ErrorFallback;
 - 이제 ErrorBoundary에 fallback, onReset을 props로 넘겨봅시다.
 
 ### 전체코드
-```
+```tsx
 import React, { ComponentType, ReactNode } from "react";
 import { HTTPError } from "../components/HTTPError";
 
@@ -440,7 +440,7 @@ export default ErrorBoundary;
 
 ## 결과
 - 이제 비동기 에러를 발생시켜 상태코드에 따라 업데이트 되는지 확인해봅시다.
-```
+```tsx
 import { http, HttpResponse } from 'msw';
 
 const errorHandlers = [

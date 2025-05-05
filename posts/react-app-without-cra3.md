@@ -48,18 +48,18 @@ category: All, React
 
 ## webpack 설정하기
 - 빌드 타임에서 webpack을 실행하기 위한 패키지 2개를 설치해줍니다.
-```
+```bash
 npm install --save-dev webpack webpack-cli
 ```
 - Babel과 통합하기 위한 babel-loader도 같이 설치해 줍니다.
-```
+```bash
 npm install --save-dev babel-loader  
 ```
 
 - package.json에 설치된 패키지가 devDependencies에 추가된 것을 확인하고 .webpack.config.js파일을 만들어 webpack 설정을 해줍니다.
 - webpack은 build 환경인 Node.js 환경에서 실행되기 때문에 CommonJS문법을 사용해야합니다.
 
-```
+```js
 const path =require("path");
 module.exports = {
     // 번들링의 시작점을 지정해준다.
@@ -87,7 +87,7 @@ module.exports = {
 };
 ```
 - 마지막으로, package.json에 build명령어를 webpack으로 변경해줍니다.
-```
+```bash
 "build": "webpack"
 ```
 
@@ -153,7 +153,7 @@ module.exports = {
 
 - 실행 속도보다 빌드 속도가 더 중요한 개발 단계, 즉, development 모드에서는 이과정을 의도적으로 생략하기 때문에 빌드 속도가 빠른 것입니다.
 - 저희는 개발단계이기 때문에 development로 설정하겠습니다.
-```
+```js
 // webpack.config.js
 const path =require("path");
 module.exports = {

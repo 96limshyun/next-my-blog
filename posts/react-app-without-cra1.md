@@ -28,7 +28,7 @@ category: All, React
 # CRA 없이 React 앱 구성하기
 ## 초기 index.html 파일 구성
 - 먼저 html의 기본적인 구조를 잡아줍니다.
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +48,7 @@ category: All, React
   - React: "https://unpkg.com/react@18.3.1/umd/react.production.min.js"
   - ReactDOM: "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,7 +73,7 @@ category: All, React
 ![cra](/CRA3.png)
 
 - 이걸 그대로 스크립트 태그에 정의하고 다시 실행해 보겠습니다.
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,7 +104,7 @@ category: All, React
 
 ## 왜 이런 에러가 날까요?
 - React를 많이 다뤄보신 분들이라면 스크립트 중간에 아래와 같은 태그가 들어가는 것이 이상한 모습이 아닐겁니다.
-```
+```jsx
 <h1>HELLO REACT</h1>
 <React.StricMode>
     <APP/>
@@ -114,7 +114,7 @@ category: All, React
 - 사실 이것은 전통적인 자바스크립트 문법이 아닌 JSX문법입니다.
 - 현재로써는 JSX 문법을 사용할 수 있는 방법이 없어 JSX없이 컴포넌트를 생성해야는데 다행이도 React에서 createElement(태그, props, children)를 통해 이를 지원하고 있습니다.
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>

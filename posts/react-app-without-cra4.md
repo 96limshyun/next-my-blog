@@ -9,7 +9,7 @@ category: All, React
 - Plugin은 프로그램에서 기능을 확장하거나 추가할 수 있게 해주는 작은 소프트웨어 모듈 또는 컴포넌트입니다.
 - Plugin을 왜 사용해야 하는지 직접 보며 적용해보겠습니다.
 - 먼저 저번에 빌드 했던 dist폴더를 삭제한 후 webpack.config.js파일을 다음과 같이 수정합니다.
-```
+```js
 const path =require("path");
 module.exports = {
     entry: "./src/app.js",
@@ -38,11 +38,11 @@ module.exports = {
 
 - 이제 index.html 파일을 실행하면 실행되지 않습니다. 
 - 당연히 되지 않습니다. 왜냐하면, 저희는 index.html 파일에서 해쉬값이 붙지 않은 bundle.js파일을 로드하고 있기 때문입니다.
-```
+```html
 <script src="dist/bundle.js" type="module"></script>
 ```
 - 파일명이 변경되었으니 변경된 bundle 파일을 스크립트 태그에 적용하면 정상적으로 실행됩니다.
-```
+```html
 <script src="dist/bundle.f27563c305c6f77adbc5.js" type="module"></script>
 ```
 
@@ -51,12 +51,12 @@ module.exports = {
 
 ## html-webpack-plugin
 - html-webpack-plugin을 적용해 봅시다. 먼저 설치를 합니다.
-```
+```bash
 npm install --save-dev html-webpack-plugin
 ```
 - webpack.config.js 파일을 수정해줍니다.
-```
-const path =require("path");
+```js
+const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
@@ -101,12 +101,12 @@ module.exports = {
 - 지금까지는 빌드하기 전, 이전 빌드의 결과물이 남아있지 않도록 dist 폴더를 일일이 제거해주었습니다.
 - clean webpack plugin를 적용하면, 이 작업을 자동화 할 수 있습니다.
 - 먼저 clean webpack plugin를 설치 줍니다.
-```
+```bash
 npm install clean-webpack-plugin
 ```
 
 - webpack.config.js 파일을 수정해줍니다.
-```
+```js
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -144,12 +144,12 @@ module.exports = {
 - CRA, vite으로 시작하는 프로젝트는 npm start, npm run dev 명령어를 입력하면 개발 서버가 시작되는 것을 볼 수 있습니다.
 - 이번에는 개발서버를 적용해 보겠습니다.
 - 먼저 webpack-dev-server를 설치해줍니다.
-```
+```bash
 npm install --save-dev webpack-dev-server
 ```
 
 - webpack.config.js와 package.json 파일을 다음과 같이 수정해줍니다.
-```
+```js
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -189,7 +189,7 @@ module.exports = {
     }
 };
 ```
-```
+```json
 {
   "name": "react-app-without-cra",
   "version": "1.0.0",
@@ -228,7 +228,7 @@ module.exports = {
 - 보통 API 호출을 위한 도메인 관리를 환경 변수로 하는 것이 일반적입니다.
 - webpack에서 이런 환경 변수를 관리할 수 있는 패키지가 바로 dotenv-webpack 이라는 플러그인 입니다.
 - 설치를 해줍니다.
-```
+```bash
 npm install --save-dev dotenv-webpack
 ```
 - 환경 변수 파일은 보통 .env라는 파일명 뒤에 어떤 환경에 대한 파일인지를 접미사로 나타냅니다.
@@ -237,7 +237,7 @@ npm install --save-dev dotenv-webpack
 ![cra](/CRA26.png)
 
 - 환경 변수를 출력하기 위해 app.js에 환경 변수를 불러옵니다.
-```
+```js
 import { addNumber } from "./utils/add.js";
 import { subtractNumber } from "./utils/subtract.js";
 import { multiplyNumber } from "./utils/multiply.js";
@@ -253,7 +253,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
 ```
 - webpack이 빌드를 시작하면서, 어떤 환경 변수 파일을 사용해야 하는지는 webpack에게 명시적으로 알려줘야 합니다. 이를 위해서 NODE_ENV라는 환경변수를 사용할 수 있습니다.
 - webpack.config.js와 package.json 파일을 수정해줍니다.
-```
+```json
 {
   "name": "react-app-without-cra",
   "version": "1.0.0",
@@ -287,7 +287,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
   }
 }
 ```
-```
+```js
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");

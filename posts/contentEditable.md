@@ -59,7 +59,7 @@ category: ts, React, All
 
 아래는 본인이 위의 메소드를 사용해 적용한 커서위치를 저장하고 복원하는 코드다.
 
-```
+```tsx
 // 커서 위치 저장 함수
 const saveCaretPosition = (caretPositionRef: CaretPositionRef): void => {
     const selection = window.getSelection(); // 현재 선택된 커서 위치를 가져온다.
@@ -88,7 +88,7 @@ const restoreCaretPosition = (caretPositionRef: CaretPositionRef): void => {
 };
 ```
 
-```
+```tsx
 import { useEffect, useRef } from "react";
 import * as S from "../../styles/BlockStyle";
 import restoreCaretPosition from "../../utils/restoreCaretPosition";
@@ -166,7 +166,7 @@ export default BlockEditable;
   - 이벤트는 조합 문자가 입력이 끝났을 때 호출되며, 이때 isComposing 상태를 false로 설정하고 최종 텍스트를 저장한다.
 
 ### 적용!
-```
+```tsx
 import { useEffect, useRef, useState } from "react";
 import * as S from "../../styles/BlockStyle";
 import restoreCaretPosition from "../../utils/restoreCaretPosition";
@@ -245,15 +245,15 @@ export default BlockEditable;
 ### 한글자가 완성될때마다 === onCompositionEnd 될때마다 디바운스로 서버에 데이터를 보내버리자!
 - onCompositionEnd이되면 그때마다 데이터를 서버에 저장하면 될것이라 생각해 적용해봤다.
 
-```
+```tsx
 onCompositionEnd={handleCompositionEnd}
 
 const handleCompositionEnd = (e: React.FormEvent<HTMLDivElement>) => {
-        setIsComposing(false);
-        const newContent =
-            (e.currentTarget as HTMLDivElement).textContent ?? "";
-        handleContentChange(index, newContent);
-    };
+    setIsComposing(false);
+    const newContent =
+        (e.currentTarget as HTMLDivElement).textContent ?? "";
+    handleContentChange(index, newContent);
+};
 ```
 
 ![Notion6](/notion6.gif)
@@ -291,7 +291,7 @@ const handleCompositionEnd = (e: React.FormEvent<HTMLDivElement>) => {
 ## 또 해결해보자..
  - 이번 에러는 간단하다. 페이지가 전환되면, 즉 페이지 id가 바뀌면 커서위치를 그냥 없애주면 된다!
 
-```
+```tsx
 ### 적용
 useEffect(() => {
     const selection = window.getSelection();
@@ -327,7 +327,7 @@ useEffect(() => {
 ![Notion9](/notion9.gif)
 
 ### 적용!!!!!(전체 코드)
-```
+```tsx
 / Page.tsx
 import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -411,7 +411,7 @@ const PageContainer = styled.div`
 
 ```
 
-```
+```tsx
 /BlockEditable.tsx
 import { useEffect, useRef } from "react";
 import * as S from "../../styles/BlockStyle";
