@@ -206,7 +206,7 @@ export default Text;
 - 초기 학습 비용
   - cva, twc, twMerge 각각의 개념과 용법을 익혀야 함
 - Tailwind 종속
-- Tailwind를 사용하는 팀/프로젝트에서만 유용(SC, Emotion 등 다른 방식과 병행 사용은 비추천)
+  - Tailwind를 사용하는 팀/프로젝트에서만 유용(SC, Emotion 등 다른 방식과 병행 사용은 비추천)
 
 ## 마이그레이션을 하면 얻은 팁
 - 기존 theme.ts에서 정의된 스타일 키들을 그대로 cva의 variant 키로 옮기면 매우 편하다
