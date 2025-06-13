@@ -18,6 +18,7 @@ category: React, All
 
 이러한 한계점들을 해결하고, 유지보수성과 확장성을 개선하기 위해 
 **Tailwind CSS + twc(tailwind-styled-components) + cva(class-variance-authority)** 기반의 새로운 디자인 시스템으로 마이그레이션을 결심하게 되었습니다.
+
 ---
 
 ## 마이그레이션 전
