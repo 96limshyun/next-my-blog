@@ -167,11 +167,13 @@ export default BaseText;
   Text
 </Text>
 ```
+----
 
-## twc의 장점 – asChild 및 ref 자동 지원
+## twc의 장점
+### asChild 및 ref 자동 지원
 - 기존 React 컴포넌트는 forwardRef나 asChild 패턴을 직접 구현해야 했지만, twc는 이를 자동 지원합니다.
 
-### 예시 1: 기존 방식 (forwardRef 필요)
+#### 예시 1: 기존 방식 (forwardRef 필요)
 ```tsx
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -185,7 +187,7 @@ const Card = React.forwardRef<
 ));
 ```
 
-### twc 사용 시 (forwardRef 자동, 클래스 병합 포함)
+#### twc 사용 시 (forwardRef 자동, 클래스 병합 포함)
 ```tsx
 import { twc } from "react-twc";
 
@@ -241,11 +243,10 @@ cva와 twc는 꽤 강력하고 유연한 도구라는 걸 느낄 수 있었습�
 그중에서도 cva 기반의 variant 설계는 **다형성(polymorphism)**을 유연하게 구현할 수 있어, 하나의 컴포넌트를 다양한 상황에 맞게 재사용할 수 있는 폴리몰픽 컴포넌트 구성에 매우 적합하다고 느꼈습니다.
 
 참고 자료:
-[twc](https://react-twc.vercel.app/)
-[as-child-prop](https://react-twc.vercel.app/docs/guides/as-child-prop)
-[refs](https://react-twc.vercel.app/docs/guides/refs)
-[styling-any-component](https://react-twc.vercel.app/docs/guides/styling-any-component)
-[adapting-based-on-props](https://react-twc.vercel.app/docs/guides/adapting-based-on-props)
-
-[cva variants](https://cva.style/docs/getting-started/variants)
+- [twc](https://react-twc.vercel.app/)
+- [twc/as-child-prop](https://react-twc.vercel.app/docs/guides/as-child-prop)
+- [twc/refs](https://react-twc.vercel.app/docs/guides/refs)
+- [twc/styling-any-component](https://react-twc.vercel.app/docs/guides/styling-any-component)
+- [twc/adapting-based-on-props](https://react-twc.vercel.app/docs/guides/adapting-based-on-props)
+- [cva/variants](https://cva.style/docs/getting-started/variants)
 
