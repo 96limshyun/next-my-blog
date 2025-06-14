@@ -147,35 +147,13 @@ interface TextProps
     Omit<HTMLAttributes<HTMLParagraphElement>, "color"> {
   children?: ReactNode;
 }
-// 실제 variant 조합을 받아 className string으로 반환하는 헬퍼 함수
-const text = (variants: VariantProps<typeof textVariants>) =>
-  twMerge(textVariants(variants));
 
-const BaseText = twc.p``;
-// 최종 Text 컴포넌트 정의
-const Text = ({
-  fontSize,
-  fontWeight,
-  lineHeight,
-  color,
-  className,
-  children,
-  ...props
-}: TextProps) => {
-  return (
-    <BaseText
-      {...props}
-      className={twMerge(
-        text({ fontSize, fontWeight, lineHeight, color }),
-        className
-      )}
-    >
-      {children}
-    </BaseText>
-  );
-};
+const BaseText = twc.p<TextProps>`
+  ${({ fontSize, fontWeight, lineHeight, color, className }) =>
+    twMerge(textVariants({ fontSize, fontWeight, lineHeight, color }), className)}
+`;
 
-export default Text;
+export default BaseText;
 ```
 
 ### 사용
@@ -190,23 +168,63 @@ export default Text;
 </Text>
 ```
 
-## 장점
-- 가독성 향상
-  - Tailwind 클래스 기반으로 어떤 스타일이 적용되는지 한눈에 파악 가능
-- 재사용성 강화
-  - cva를 통한 variant 선언으로 다형성 구현 가능
-- 유지보수 쉬움
-  - 스타일 충돌 없이 컴포넌트 단위 수정 가능
-- className 병합 가능
-  - twMerge를 통해 props 스타일과 외부 클래스 병합 가능
-- 자동완성 지원
-  - VariantProps를 통해 fontSize="lg" 같은 입력 시 IDE 자동완성 가능 → 생산성과 실수 방지에 모두 효과적
+## twc의 장점 – asChild 및 ref 자동 지원
+- 기존 React 컴포넌트는 forwardRef나 asChild 패턴을 직접 구현해야 했지만, twc는 이를 자동 지원합니다.
+
+### 예시 1: 기존 방식 (forwardRef 필요)
+```tsx
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={clsx("rounded-lg border bg-slate-100 text-white shadow-sm", className)}
+    {...props}
+  />
+));
+```
+
+### twc 사용 시 (forwardRef 자동, 클래스 병합 포함)
+```tsx
+import { twc } from "react-twc";
+
+const Card = twc.div`rounded-lg border bg-slate-100 text-white shadow-sm`;
+```
+
+### twc의 확장성 – asChild를 통한 slot 렌더링과 외부 라이브러리 호환성
+twc는 Radix UI의 Slot 컴포넌트처럼 **slot 기반 렌더링(asChild)**을 지원하여, 다양한 HTML 태그나 외부 컴포넌트를 원하는 방식으로 감싸지 않고 스타일만 입히는 폴리모픽 구조를 쉽게 구현할 수 있습니다.
+
+이는 다음과 같은 상황에서 유용합니다
+- 버튼 컴포넌트를 `<a>` 태그로 렌더링해야 할 때
+- 외부 UI 라이브러리의 컴포넌트(Radix UI, React Aria 등)에 Tailwind 기반 스타일을 적용하고 싶을 때
+- 직접 만든 headless UI 컴포넌트에 스타일만 덧입혀 재사용하고자 할 때
+
+예를 들어, Radix UI의 Dialog.Trigger나 Dropdown.MenuItem 같은 headless 구성 요소는 내부 구조만 제공하고 스타일은 직접 입혀야 하는데, 이때 twc를 사용하면 다음처럼 선언적으로 스타일링할 수 있습니다:
+
+```tsx
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { twc } from "tailwind-styled-components";
+
+const MenuItem = twc(DropdownMenu.Item)`px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer`;
+```
+
+- 또는 React Aria의 `<Button>`과 같은 구성 요소에도 동일하게 적용 가능합니다.
+
+이러한 방식은 기존 컴포넌트 구조를 해치지 않으면서도 스타일 일관성과 재사용성을 유지할 수 있게 해주며, 실제 디자인 시스템에서 다양한 UI 생태계를 통합하는 데 큰 도움이 됩니다.
+
+## 마이그레이션의 장점
+- Tailwind 기반 클래스 선언으로 가독성 향상
+- cva를 통한 variant 추상화 → 컴포넌트 다형성(Polymorphism) 실현
+- twMerge로 외부 className과 병합 처리
+- IDE 자동완성 및 타입 안정성 확보
+- 불필요한 스타일 조건 분기 제거
+- forwardRef 및 asChild 지원 → 재사용성과 확장성 확보
 
 ## 단점
-- 초기 학습 비용
-  - cva, twc, twMerge 각각의 개념과 용법을 익혀야 함
-- Tailwind 종속
-  - Tailwind를 사용하는 팀/프로젝트에서만 유용(SC, Emotion 등 다른 방식과 병행 사용은 비추천)
+- 초반 러닝커브: cva, twc, twMerge에 대한 개념 학습 필요
+- Tailwind에 강하게 종속되기 때문에 다른 스타일 시스템과 혼용이 어려움
+- 복잡한 스타일 구조에서는 twc만으로 표현하기 어려운 경우도 있음 → 필요 시 CSS module, className 조건 분기 병행
 
 ## 마이그레이션을 하면 얻은 팁
 - 기존 theme.ts에서 정의된 스타일 키들을 그대로 cva의 variant 키로 옮기면 매우 편하다
@@ -218,7 +236,16 @@ export default Text;
 단순히 스타일링을 빠르게 하기 위한 Tailwind가 아닌, 디자인 시스템 단위로 구조화하는 데 있어
 cva와 twc는 꽤 강력하고 유연한 도구라는 걸 느낄 수 있었습니다.
 
-특히, styled-components는 개발이 중단되어 점점 레거시 기술로 간주되는 추세이며,
-앞으로는 tailwindcss와 cva 기반의 유틸리티/variant 기반 컴포넌트 설계가 점점 더 많아질 것으로 보입니다.
+특히, cva를 통해 **스타일 다형성(Polymorphism)**을 타입 안전하게 선언할 수 있고, twc를 통해 forwardRef + slot-like 구성 + 선언형 스타일 관리까지 한 번에 해결할 수 있었습니다.
 
 그중에서도 cva 기반의 variant 설계는 **다형성(polymorphism)**을 유연하게 구현할 수 있어, 하나의 컴포넌트를 다양한 상황에 맞게 재사용할 수 있는 폴리몰픽 컴포넌트 구성에 매우 적합하다고 느꼈습니다.
+
+참고 자료:
+[twc](https://react-twc.vercel.app/)
+[as-child-prop](https://react-twc.vercel.app/docs/guides/as-child-prop)
+[refs](https://react-twc.vercel.app/docs/guides/refs)
+[styling-any-component](https://react-twc.vercel.app/docs/guides/styling-any-component)
+[adapting-based-on-props](https://react-twc.vercel.app/docs/guides/adapting-based-on-props)
+
+[cva variants](https://cva.style/docs/getting-started/variants)
+
