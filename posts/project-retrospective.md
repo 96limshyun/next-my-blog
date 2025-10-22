@@ -42,7 +42,7 @@ category: All
 - 표준화된 마이그레이션 가이드 문서 작성 (`@bpl-web-to-bds-migration-mapping.md`)
 - 자동화 도구로 반복 작업 최소화
 
-![find-bpl-web-simple.js 실행 결과](./find-bpl.mov)
+![find-bpl-web-simple.js 실행 결과](/find-bpl.mov)
 
 #### 2단계: 기반 인프라 구축 (Week 3-5)
 
@@ -96,8 +96,8 @@ category: All
   - 주의사항 및 테스트 체크리스트 작성
   - 후속 담당자가 바로 이어서 작업할 수 있도록 상세 가이드 제공
 
-![인계 문서 - 후속 담당자가 바로 작업을 이어갈 수 있도록 상세 가이드 작성](./guide1.png)
-![인계 문서 - 후속 담당자가 바로 작업을 이어갈 수 있도록 상세 가이드 작성](./guide2.png)
+![인계 문서 - 후속 담당자가 바로 작업을 이어갈 수 있도록 상세 가이드 작성](/guide1.png)
+![인계 문서 - 후속 담당자가 바로 작업을 이어갈 수 있도록 상세 가이드 작성](/guide2.png)
 
 **학습 포인트:**
 
@@ -130,7 +130,7 @@ category: All
 - 범용성을 인정받아 ts-util로 분리하여 회사 전체에서 사용 가능하도록 확장
 - 제가 만든 도구가 팀을 넘어 회사 전역으로 확산되는 경험
 
-![전역 도구 확산](./az.mov)
+![전역 도구 확산](/az.mov)
 
 **학습 포인트: 점진적 개선과 추상화**
 
@@ -157,7 +157,7 @@ category: All
 - 모든 edge case 모달을 버튼 클릭 한 번으로 테스트 가능
 - 깃 브랜치로 재현 가능성을 확보하여 리뷰어도 쉽게 확인
 
-![POC 테스트 페이지](./communication-poc.png)
+![POC 테스트 페이지](/communication-poc.png)
 
 **학습 포인트: Testable한 환경의 중요성**
 
@@ -175,7 +175,7 @@ category: All
 - 이슈를 제기하여 마이그레이션 대상 목록 재검토
 - 불필요한 작업 40+ 페이지 제외, 약 1주일 분량의 시간 절약
 
-![Slack에서 deprecated 페이지 이슈 제기 - 팀 논의를 통해 40+ 페이지 작업 절감](./communication-deprecated1.png)
+![Slack에서 deprecated 페이지 이슈 제기 - 팀 논의를 통해 40+ 페이지 작업 절감](/communication-deprecated1.png)
 
 **학습 포인트:**
 - 주어진 작업을 맹목적으로 수행하기보다 "왜"를 질문하는 태도의 중요성
@@ -185,7 +185,7 @@ category: All
 
 마이그레이션 중 BDS Badge 컴포넌트의 `defaultVariants` 버그를 발견하고, Slack #chapter-web-migration 채널에 즉시 공유했습니다. 팀원들의 승인을 받아 빠르게 디자인 시스템 자체를 개선하며 문제를 해결했습니다.
 
-![BDS Badge 컴포넌트 defaultVariants 버그 수정 PR - 팀 협업으로 디자인 시스템 개선](./communication-bug.png)
+![BDS Badge 컴포넌트 defaultVariants 버그 수정 PR - 팀 협업으로 디자인 시스템 개선](/communication-bug.png)
 
 **학습 포인트:**
 - 혼자 고민하지 않고 팀과 소통하는 것이 더 효율적
@@ -222,7 +222,7 @@ Slack과 Jira에 작업 내용을 꾸준히 기록하고, 주간 보고를 통�
 - 자동화 도구 개발로 팀 생산성 기여
 - as-is → to-be 스토리를 세워 문제를 구조화하고 해결
 
-![3개월 성장 타임라인 - 학습자에서 주도적 기여자로의 여정](./notion.png)
+![3개월 성장 타임라인 - 학습자에서 주도적 기여자로의 여정](/notion.png)
 
 ### 2. 질문의 중요성과 15분 규칙
 
