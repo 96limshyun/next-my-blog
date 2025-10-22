@@ -42,10 +42,7 @@ category: All
 - 표준화된 마이그레이션 가이드 문서 작성 (`@bpl-web-to-bds-migration-mapping.md`)
 - 자동화 도구로 반복 작업 최소화
 
-<video controls width="100%"></video>
-  <source src="/find-bpl.mov" type="video/quicktime">
-  find-bpl-web-simple.js 실행 결과
-</video>
+![find-bpl-web-simple.js 실행 결과](/find-bpl.gif)
 
 #### 2단계: 기반 인프라 구축 (Week 3-5)
 
@@ -133,10 +130,7 @@ category: All
 - 범용성을 인정받아 ts-util로 분리하여 회사 전체에서 사용 가능하도록 확장
 - 제가 만든 도구가 팀을 넘어 회사 전역으로 확산되는 경험
 
-<video controls width="100%">
-  <source src="/az.mov" type="video/quicktime">
-  전역 도구 확산
-</video>
+![전역 도구 확산](/az.gif)
 
 **학습 포인트: 점진적 개선과 추상화**
 
